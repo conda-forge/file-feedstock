@@ -1,6 +1,5 @@
 {% set name = "file" %}
-{% set version = "5.37" %}
-{% set sha256 = "e9c13967f7dd339a3c241b7710ba093560b9a33013491318e88e6b8b57bae07f" %}
+{% set version = "5.39" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +7,7 @@ package:
 
 source:
   url: ftp://ftp.astron.com/pub/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: f05d286a76d9556243d0cb05814929c2ecf3a5ba07963f8f70bfaaa70517fad1
 
 build:
   number: 0
@@ -17,7 +16,6 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - make
   host:
     - zlib  # [unix]
@@ -27,6 +25,21 @@ test:
     - file -v
     - file --version  # same as above
     - file --help
+
+outputs:
+  - name: libmagic
+    files:
+      - include/
+      - lib/
+      - share/misc/
+
+  - name: file
+    requirements:
+      run:
+        - {{ pin_compatible("libmagic", max_pin="x.x.x.x.x.x.x.x.x") }}
+    files:
+      - bin/
+      - share/man/
 
 about:
   home: http://darwinsys.com/file
