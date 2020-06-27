@@ -32,9 +32,10 @@ outputs:
       host:
         - zlib  # [unix]
     files:
-      - include/
-      - lib/
-      - share/misc/
+      - include/magic.h
+      - lib/libmagic.*
+      - share/misc/magic.mgc
+      - lib/pkgconfig/libmagic.pc
     test:
       commands:
         - "test -r $CONDA_PREFIX/lib/libmagic${SHLIB_EXT}"
@@ -51,8 +52,10 @@ outputs:
       run:
         - {{ pin_subpackage("libmagic", exact=True) }}
     files:
-      - bin/
-      - share/man/
+      - bin/file
+      - share/man/man*/file*
+      - share/man/man*/magic*
+      - share/man/man*/libmagic*
     test:
       commands:
         - file -v
