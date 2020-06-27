@@ -32,7 +32,7 @@ Current build status
     <td>Drone</td>
     <td>
       <a href="https://cloud.drone.io/conda-forge/file-feedstock">
-        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/master.svg?label=Linux">
+        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/file-feedstock/master.svg?label=Linux">
       </a>
     </td>
   </tr>
@@ -96,6 +96,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-file-green.svg)](https://anaconda.org/conda-forge/file) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/file.svg)](https://anaconda.org/conda-forge/file) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/file.svg)](https://anaconda.org/conda-forge/file) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/file.svg)](https://anaconda.org/conda-forge/file) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libmagic-green.svg)](https://anaconda.org/conda-forge/libmagic) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libmagic.svg)](https://anaconda.org/conda-forge/libmagic) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libmagic.svg)](https://anaconda.org/conda-forge/libmagic) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libmagic.svg)](https://anaconda.org/conda-forge/libmagic) |
 
 Installing file
 ===============
@@ -106,10 +107,10 @@ Installing `file` from the `conda-forge` channel can be achieved by adding `cond
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `file` can be installed with:
+Once the `conda-forge` channel has been enabled, `file, libmagic` can be installed with:
 
 ```
-conda install file
+conda install file libmagic
 ```
 
 It is possible to list all of the versions of `file` available on your platform with:
