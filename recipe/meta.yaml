@@ -22,6 +22,12 @@ requirements:
 
 outputs:
   - name: libmagic
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - make
+      host:
+        - zlib  # [unix]
     files:
       - include/
       - lib/
@@ -34,6 +40,11 @@ outputs:
 
   - name: file
     requirements:
+      build:
+        - {{ compiler('c') }}
+        - make
+      host:
+        - zlib  # [unix]
       run:
         - {{ pin_compatible("libmagic", max_pin="x.x.x.x.x.x.x.x.x") }}
     files:
