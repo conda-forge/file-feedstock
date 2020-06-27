@@ -26,8 +26,9 @@ outputs:
       - include/
       - lib/
       - share/misc/
-    commands:
-      - "test -r $CONDA_PREFIX/lib/libmagic${SHLIB_EXT}"
+    test:
+      commands:
+        - "test -r $CONDA_PREFIX/lib/libmagic${SHLIB_EXT}"
     about:
       summary: Implementation of the file(1) command
 
@@ -55,6 +56,7 @@ outputs:
 
 about:
   home: http://darwinsys.com/file
+  summary: Fine Free File Command
   license: BSD-2-Clause
   license_file: COPYING
   dev_url: https://github.com/file/file
