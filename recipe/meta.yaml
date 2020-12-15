@@ -28,6 +28,7 @@ outputs:
         - {{ pin_subpackage('libmagic', max_pin='x') }}
     requirements:
       build:
+        - gnuconfig  # [unix]
         - {{ compiler('c') }}
         - make
       host:
@@ -46,6 +47,7 @@ outputs:
   - name: file
     requirements:
       build:
+        - gnuconfig  # [unix]
         - {{ compiler('c') }}
         - make
       host:
