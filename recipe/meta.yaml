@@ -41,7 +41,6 @@ outputs:
     test:
       commands:
         - "test -r $CONDA_PREFIX/lib/libmagic${SHLIB_EXT}"
-        - "dyld_info $CONDA_PREFIX/lib/libmagic.dylib"  # [osx]
     about:
       summary: Implementation of the file(1) command
 
