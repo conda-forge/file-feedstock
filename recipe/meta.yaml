@@ -2,7 +2,7 @@
 {% set version = "5.46" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
@@ -85,6 +85,7 @@ about:
   dev_url: https://github.com/file/file
 
 extra:
+  feedstock-name: {{ name|lower }}
   recipe-maintainers:
     - chrisburr
     - mariusvniekerk
