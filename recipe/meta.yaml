@@ -1,5 +1,5 @@
 {% set name = "file" %}
-{% set version = "5.39" %}
+{% set version = "5.46" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: http://ftp.astron.com/pub/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f05d286a76d9556243d0cb05814929c2ecf3a5ba07963f8f70bfaaa70517fad1
+  sha256: c9cc77c7c560c543135edc555af609d5619dbef011997e988ce40a3d75d86088
 
 build:
-  number: 1
+  number: 0
   skip: True  # [win]
 
 requirements:
