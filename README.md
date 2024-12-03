@@ -9,7 +9,7 @@ About file
 
 Home: http://darwinsys.com/file
 
-Package license: BSD-2-Clause
+Package license: BSD-2-Clause-Darwin
 
 Summary: Fine Free File Command
 
@@ -29,7 +29,7 @@ About file
 
 Home: http://darwinsys.com/file
 
-Package license: BSD-2-Clause
+Package license: BSD-2-Clause-Darwin
 
 Summary: Fine Free File Command
 
