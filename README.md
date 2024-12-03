@@ -27,13 +27,11 @@ Summary: Implementation of the file(1) command
 About file
 ----------
 
-Home: http://darwinsys.com/file
 
-Package license: BSD-2-Clause-Darwin
+
+Package license: 
 
 Summary: Fine Free File Command
-
-Development: https://github.com/file/file
 
 The file command is "a file type guesser", that is, a command-line tool
 that tells you in words what kind of data a file contains. Unlike most GUI
