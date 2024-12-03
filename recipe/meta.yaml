@@ -17,6 +17,7 @@ requirements:
   build:
     - gnuconfig  # [unix]
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
     - make
   host:
     - zlib  # [unix]
@@ -30,6 +31,7 @@ outputs:
       build:
         - gnuconfig  # [unix]
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - make
       host:
         - zlib  # [unix]
@@ -49,6 +51,7 @@ outputs:
       build:
         - gnuconfig  # [unix]
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - make
       host:
         - zlib  # [unix]
