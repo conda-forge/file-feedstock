@@ -1,22 +1,23 @@
 {% set name = "file" %}
-{% set version = "5.39" %}
+{% set version = "5.46" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
-  url: ftp://ftp.astron.com/pub/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f05d286a76d9556243d0cb05814929c2ecf3a5ba07963f8f70bfaaa70517fad1
+  url: http://ftp.astron.com/pub/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: c9cc77c7c560c543135edc555af609d5619dbef011997e988ce40a3d75d86088
 
 build:
-  number: 1
+  number: 0
   skip: True  # [win]
 
 requirements:
   build:
     - gnuconfig  # [unix]
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
     - make
   host:
     - zlib  # [unix]
@@ -30,6 +31,7 @@ outputs:
       build:
         - gnuconfig  # [unix]
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - make
       host:
         - zlib  # [unix]
@@ -49,6 +51,7 @@ outputs:
       build:
         - gnuconfig  # [unix]
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - make
       host:
         - zlib  # [unix]
@@ -77,12 +80,14 @@ outputs:
 about:
   home: http://darwinsys.com/file
   summary: Fine Free File Command
-  license: BSD-2-Clause
+  license: BSD-2-Clause-Darwin
   license_file: COPYING
   dev_url: https://github.com/file/file
 
 extra:
+  feedstock-name: {{ name|lower }}
   recipe-maintainers:
+    - blmaier
     - chrisburr
     - mariusvniekerk
     - mrakitin
