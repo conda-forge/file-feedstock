@@ -1,15 +1,14 @@
 schema_version: 1
 
 context:
-  name: file
   version: "5.47"
 
 recipe:
-  name: ${{ name }}-split
+  name: file-split
   version: ${{ version }}
 
 source:
-  url: http://ftp.astron.com/pub/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  url: http://ftp.astron.com/pub/file/file-${{ version }}.tar.gz
   sha256: 45672fec165cb4cc1358a2d76b5d57d22876dcb97ab169427ac385cbe1d5597a
 
 build:
@@ -18,7 +17,7 @@ build:
 
 outputs:
   - staging:
-      name: ${{ name }}-build
+      name: file-build
     requirements:
       build:
         - if: unix
@@ -34,7 +33,7 @@ outputs:
 
   - package:
       name: libmagic
-    inherit: ${{ name }}-build
+    inherit: file-build
     build:
       files:
         - include/magic.h
@@ -46,6 +45,7 @@ outputs:
         - ${{ pin_subpackage('libmagic', upper_bound='x') }}
     tests:
       - package_contents:
+          strict: true
           lib:
             - magic
           include:
@@ -53,6 +53,7 @@ outputs:
           files:
             exists:
               - share/misc/magic.mgc
+              - lib/pkgconfig/libmagic.pc
     about:
       summary: Implementation of the file(1) command
       license: BSD-2-Clause-Darwin
@@ -61,7 +62,7 @@ outputs:
 
   - package:
       name: file
-    inherit: ${{ name }}-build
+    inherit: file-build
     build:
       files:
         - bin/file
@@ -97,9 +98,10 @@ about:
   repository: https://github.com/file/file
 
 extra:
-  feedstock-name: ${{ name }}
+  feedstock-name: file
   recipe-maintainers:
     - blmaier
     - chrisburr
     - mariusvniekerk
     - mrakitin
+    - pavelzw
