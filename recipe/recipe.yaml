@@ -34,6 +34,7 @@ source:
         - patches/0016-Fix-file_famagic-function.patch
         - patches/0017-Change-bzlib-name-to-match-CMake-output.patch
         - patches/0018-Use-pcre2-posix-for-regex-and-recognize-mingw64-host.patch
+        - patches/0019-Declare-getopt-globals-and-link-getopt-replacement-i.patch
 
 build:
   number: 1

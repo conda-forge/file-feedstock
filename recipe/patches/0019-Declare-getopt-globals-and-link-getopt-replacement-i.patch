@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: bot <bot@example.com>
+Date: Fri, 12 Jun 2026 08:31:00 +0000
+Subject: [PATCH] Declare getopt globals and link getopt replacement into
+ file(1)
+
+MSVC has no unistd.h, which is what declares optarg/optind/opterr/optopt
+on POSIX systems, so declare them in mygetopt.h. The replacement
+getopt_long.c LIBOBJ is linked into libmagic.dll where its data symbols
+cannot be imported from without dllimport annotations, so additionally
+compile it directly into the file(1) executable.
+---
+ src/Makefile.am        | 3 +++
+ src/getopt_long_prog.c | 8 ++++++++
+ src/mygetopt.h         | 4 ++++
+ 3 files changed, 15 insertions(+)
+ create mode 100644 src/getopt_long_prog.c
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index b7f9414..2ce4592 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -23,6 +23,9 @@ endif
+ libmagic_la_LIBADD = -lm $(LTLIBOBJS) $(MINGWLIBS)
+ 
+ file_SOURCES = file.c seccomp.c
++if MINGW
++file_SOURCES += getopt_long_prog.c
++endif
+ file_LDADD = libmagic.la -lm
+ CLEANFILES = magic.h
+ EXTRA_DIST = magic.h.in cdf.mk BNF memtest.c
+diff --git a/src/getopt_long_prog.c b/src/getopt_long_prog.c
+new file mode 100644
+index 0000000..578aa33
+--- /dev/null
++++ b/src/getopt_long_prog.c
+@@ -0,0 +1,8 @@
++/*
++ * On Windows the getopt_long replacement object (a LIBOBJ) is linked into
++ * libmagic.dll, but optind/optarg/opterr/optopt are data symbols that
++ * cannot be imported across a DLL boundary without __declspec(dllimport)
++ * annotations. Compile the replacement into the file(1) executable itself
++ * so that the symbols are resolved locally.
++ */
++#include "getopt_long.c"
+diff --git a/src/mygetopt.h b/src/mygetopt.h
+index 7e4627a..7950945 100644
+--- a/src/mygetopt.h
++++ b/src/mygetopt.h
+@@ -34,6 +34,10 @@
+ 
+ #ifdef HAVE_UNISTD_H
+ #include <unistd.h>
++#else
++/* unistd.h normally declares these; MSVC does not have unistd.h */
++extern char *optarg;
++extern int optind, opterr, optopt;
+ #endif
+ 
+ /*
+-- 
+2.54.0
+
