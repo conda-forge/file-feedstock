@@ -75,6 +75,7 @@ outputs:
       files:
         - if: win
           then:
+            - Library/bin/magic.dll
             - Library/bin/libmagic.dll
             - Library/lib/magic.lib
             - Library/include/magic.h
@@ -95,6 +96,7 @@ outputs:
               strict: true
               files:
                 exists:
+                  - Library/bin/magic.dll
                   - Library/bin/libmagic.dll
                   - Library/lib/magic.lib
                   - Library/include/magic.h

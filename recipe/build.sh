@@ -71,5 +71,12 @@ make install
 
 if [[ "${target_platform}" == win-* ]]; then
     # Rename the import library to follow the MSVC naming convention
-    mv "${PREFIX}/lib/libmagic.dll.lib" "${PREFIX}/lib/magic.lib"
+    mv "${PREFIX}/lib/magic.dll.lib" "${PREFIX}/lib/magic.lib"
+    # file.exe links against magic.dll, but ctypes consumers such as
+    # python-magic look for libmagic.dll, so ship the DLL under both names.
+    cp "${PREFIX}/bin/magic.dll" "${PREFIX}/bin/libmagic.dll"
+    # The .pc file contains the MSYS2-style build prefix (/d/bld/...), which
+    # conda's prefix replacement does not handle on Windows; make it
+    # relocatable instead.
+    sed -i "s|^prefix=.*|prefix=\${pcfiledir}/../..|" "${PREFIX}/lib/pkgconfig/libmagic.pc"
 fi
