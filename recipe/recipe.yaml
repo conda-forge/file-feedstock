@@ -36,6 +36,7 @@ source:
         - patches/0018-Use-pcre2-posix-for-regex-and-recognize-mingw64-host.patch
         - patches/0019-Declare-getopt-globals-and-link-getopt-replacement-i.patch
         - patches/0020-Fix-utime-usage-for-MSVC.patch
+        - patches/0021-Use-the-real-struct-timespec-with-the-UCRT.patch
 
 build:
   number: 1

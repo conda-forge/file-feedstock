@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: bot <bot@example.com>
+Date: Fri, 12 Jun 2026 08:48:36 +0000
+Subject: [PATCH] Use the real struct timespec with the UCRT
+
+cdf.h maps struct timespec to winsock2's struct timeval on WIN32, whose
+members are 32-bit longs. cdf_ctime takes a const time_t * (64-bit on
+Windows), so passing &ts.tv_sec does not compile with that mapping. The
+UCRT has a C11-conforming struct timespec with a time_t tv_sec, so only
+apply the timeval fallback for toolchains that lack it.
+---
+ src/cdf.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/cdf.h b/src/cdf.h
+index 6dddb3d..5c1b797 100644
+--- a/src/cdf.h
++++ b/src/cdf.h
+@@ -37,9 +37,13 @@
+ 
+ #ifdef WIN32
+ #include <winsock2.h>
++#ifndef _MSC_VER
++/* The UCRT provides a C11 struct timespec (with 64-bit time_t); only
++   map it to struct timeval for old toolchains that lack it. */
+ #define timespec timeval
+ #define tv_nsec tv_usec
+ #endif
++#endif
+ #ifdef __DJGPP__
+ #define timespec timeval
+ #define tv_nsec tv_usec
+-- 
+2.54.0
+
