@@ -35,6 +35,7 @@ source:
         - patches/0017-Change-bzlib-name-to-match-CMake-output.patch
         - patches/0018-Use-pcre2-posix-for-regex-and-recognize-mingw64-host.patch
         - patches/0019-Declare-getopt-globals-and-link-getopt-replacement-i.patch
+        - patches/0020-Fix-utime-usage-for-MSVC.patch
 
 build:
   number: 1

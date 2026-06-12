@@ -21,7 +21,9 @@ if [[ "${target_platform}" == win-* ]]; then
     # WIN32 enables file's built-in logic to locate magic.mgc relative to
     # the DLL/EXE location (Library/bin/../share/misc/magic.mgc) at runtime,
     # since conda cannot do prefix replacement in binaries on Windows.
-    export CFLAGS="${CFLAGS} -DWIN32"
+    # oldnames.lib provides the POSIX-named aliases (open, close, read, ...)
+    # of the UCRT functions, which are not in the msvcrt umbrella lib.
+    export CFLAGS="${CFLAGS} -DWIN32 -Xclang --dependent-lib=oldnames"
     # The compression support requires fork(), which is not available on
     # Windows.
     configure_args+=(
