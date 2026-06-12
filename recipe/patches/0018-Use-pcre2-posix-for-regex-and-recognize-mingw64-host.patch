@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: bot <bot@example.com>
+Date: Fri, 12 Jun 2026 08:16:17 +0000
+Subject: [PATCH] Use pcre2-posix for regex and recognize mingw64 host
+
+conda-forge does not package libtre, but pcre2 ships a POSIX regex
+compatibility layer (pcre2posix.h + pcre2-posix library) that is a
+drop-in replacement for regex.h. Also widen the mingw32 host_os match
+to mingw* so that config.guess results like x86_64-pc-mingw64 (MSYS2
+MINGW64 environment) enable the MINGW code paths.
+---
+ configure.ac | 4 ++--
+ src/file.h   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index c927f3a..b53d755 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -86,7 +86,7 @@ fi], [
+ 
+ AC_CANONICAL_HOST
+ case "$host_os" in
+-   mingw32*)
++   mingw*)
+       MINGW=1
+       ;;
+    *)
+@@ -230,7 +230,7 @@ if test "$enable_libseccomp" != "no"; then
+     AC_CHECK_LIB(seccomp, seccomp_init)
+ fi
+ if test "$MINGW" = 1; then
+-  AC_SEARCH_LIBS(tre_regexec,tre,,AC_MSG_ERROR([libtre is required to build file(1) with MinGW]))
++  AC_SEARCH_LIBS(pcre2_regexec,pcre2-posix,,AC_MSG_ERROR([pcre2-posix is required to build file(1) on Windows]))
+ fi
+ 
+ dnl See if we are cross-compiling
+diff --git a/src/file.h b/src/file.h
+index 9950e14..e23cb5c 100644
+--- a/src/file.h
++++ b/src/file.h
+@@ -79,7 +79,7 @@
+ #include <stdio.h>	/* Include that here, to make sure __P gets defined */
+ #include <errno.h>
+ #include <fcntl.h>	/* For open and flags */
+-#include <tre/regex.h>
++#include <pcre2posix.h>
+ #include <time.h>
+ #include <sys/types.h>
+ #ifndef _WIN32
+-- 
+2.54.0
+
