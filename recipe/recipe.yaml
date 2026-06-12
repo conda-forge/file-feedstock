@@ -40,8 +40,6 @@ source:
 
 build:
   number: 1
-  # TODO: remove before merging - only build win while iterating on the port
-  skip: not win
 
 outputs:
   - staging:
