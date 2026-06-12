@@ -62,7 +62,7 @@ outputs:
     build:
       script:
         - if: win
-          then: bld.bat
+          then: build.bat
           else: build.sh
 
   - package:
