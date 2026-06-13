@@ -3,7 +3,7 @@
 
 package:
   name: {{ name|lower }}-split
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
   url: http://ftp.astron.com/pub/{{ name }}/{{ name }}-{{ version }}.tar.gz
