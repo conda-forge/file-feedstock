@@ -15,17 +15,6 @@ Summary: Fine Free File Command
 
 Development: https://github.com/file/file
 
-About file
-----------
-
-
-
-Package license: BSD-2-Clause-Darwin
-
-Summary: Fine Free File Command
-
-Development: https://github.com/file/file
-
 The file command is "a file type guesser", that is, a command-line tool
 that tells you in words what kind of data a file contains. Unlike most GUI
 systems, command-line UNIX systems - with this program leading the charge -
@@ -33,11 +22,10 @@ don't rely on filename extentions to tell you the type of a file, but look
 at the file's actual contents. This is, of course, more reliable, but
 requires a bit of I/O.
 
-
 About libmagic
 --------------
 
-
+Home: http://darwinsys.com/file
 
 Package license: BSD-2-Clause-Darwin
 
@@ -74,6 +62,13 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=8055&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/file-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=8055&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/file-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr>
@@ -210,4 +205,5 @@ Feedstock Maintainers
 * [@chrisburr](https://github.com/chrisburr/)
 * [@mariusvniekerk](https://github.com/mariusvniekerk/)
 * [@mrakitin](https://github.com/mrakitin/)
+* [@pavelzw](https://github.com/pavelzw/)
 
