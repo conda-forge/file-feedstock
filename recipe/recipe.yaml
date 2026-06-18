@@ -10,10 +10,36 @@ recipe:
 source:
   url: http://ftp.astron.com/pub/file/file-${{ version }}.tar.gz
   sha256: ed14656883b23a364b4057c05595d93252da9bc473d30106519519d0da141283
+  patches:
+    # Patches for building with MSVC-compatible clang on Windows.
+    # 0001-0017 are taken from vcpkg:
+    # https://github.com/microsoft/vcpkg/tree/master/ports/libmagic
+    # 0018 adapts the regex dependency to pcre2-posix (libtre is not
+    # packaged on conda-forge).
+    - if: win
+      then:
+        - patches/0001-Use-libtre.patch
+        - patches/0002-Change-zlib-lib-name-to-match-CMake-output.patch
+        - patches/0003-Fix-WIN32-macro-checks.patch
+        - patches/0004-Typedef-POSIX-types-on-Windows.patch
+        - patches/0005-Include-dirent.h-for-S_ISREG-and-S_ISDIR.patch
+        - patches/0006-Remove-Wrap-POSIX-headers.patch
+        - patches/0007-Substitute-unistd-macros-for-MSVC.patch
+        - patches/0008-Add-FILENO-defines.patch
+        - patches/0010-Properly-check-for-the-presence-of-bitmasks.patch
+        - patches/0011-Remove-pipe-related-functions-in-funcs.c.patch
+        - patches/0012-Convert-MSYS2-paths-to-Windows-paths.patch
+        - patches/0013-Check-for-backslash-in-argv-0-on-Windows.patch
+        - patches/0015-MSYS2-Remove-ioctl-call.patch
+        - patches/0016-Fix-file_famagic-function.patch
+        - patches/0017-Change-bzlib-name-to-match-CMake-output.patch
+        - patches/0018-Use-pcre2-posix-for-regex-and-recognize-mingw64-host.patch
+        - patches/0019-Declare-getopt-globals-and-link-getopt-replacement-i.patch
+        - patches/0020-Fix-utime-usage-for-MSVC.patch
+        - patches/0021-Use-the-real-struct-timespec-with-the-UCRT.patch
 
 build:
   number: 1
-  skip: win
 
 outputs:
   - staging:
@@ -24,36 +50,67 @@ outputs:
           then: gnuconfig
         - ${{ compiler('c') }}
         - ${{ stdlib('c') }}
-        - make
+        - if: win
+          then: autotools_clang_conda
+          else: make
       host:
         - if: unix
           then: zlib
+        - if: win
+          then:
+            - pcre2
+            - dirent
     build:
-      script: build.sh
+      script:
+        - if: win
+          then: build.bat
+          else: build.sh
 
   - package:
       name: libmagic
     inherit: file-build
     build:
       files:
-        - include/magic.h
-        - lib/libmagic.*
-        - share/misc/magic.mgc
-        - lib/pkgconfig/libmagic.pc
+        - if: win
+          then:
+            - Library/bin/magic.dll
+            - Library/bin/libmagic.dll
+            - Library/lib/magic.lib
+            - Library/include/magic.h
+            - Library/share/misc/magic.mgc
+            - Library/lib/pkgconfig/libmagic.pc
+          else:
+            - include/magic.h
+            - lib/libmagic.*
+            - share/misc/magic.mgc
+            - lib/pkgconfig/libmagic.pc
     requirements:
       run_exports:
         - ${{ pin_subpackage('libmagic', upper_bound='x') }}
     tests:
-      - package_contents:
-          strict: true
-          lib:
-            - magic
-          include:
-            - magic.h
-          files:
-            exists:
-              - share/misc/magic.mgc
-              - lib/pkgconfig/libmagic.pc
+      - if: win
+        then:
+          - package_contents:
+              strict: true
+              files:
+                exists:
+                  - Library/bin/magic.dll
+                  - Library/bin/libmagic.dll
+                  - Library/lib/magic.lib
+                  - Library/include/magic.h
+                  - Library/share/misc/magic.mgc
+                  - Library/lib/pkgconfig/libmagic.pc
+        else:
+          - package_contents:
+              strict: true
+              lib:
+                - magic
+              include:
+                - magic.h
+              files:
+                exists:
+                  - share/misc/magic.mgc
+                  - lib/pkgconfig/libmagic.pc
     about:
       summary: Implementation of the file(1) command
       license: BSD-2-Clause-Darwin
@@ -65,10 +122,17 @@ outputs:
     inherit: file-build
     build:
       files:
-        - bin/file
-        - share/man/man*/file*
-        - share/man/man*/magic*
-        - share/man/man*/libmagic*
+        - if: win
+          then:
+            - Library/bin/file.exe
+            - Library/share/man/man*/file*
+            - Library/share/man/man*/magic*
+            - Library/share/man/man*/libmagic*
+          else:
+            - bin/file
+            - share/man/man*/file*
+            - share/man/man*/magic*
+            - share/man/man*/libmagic*
     requirements:
       run:
         - ${{ pin_subpackage('libmagic', exact=True) }}
