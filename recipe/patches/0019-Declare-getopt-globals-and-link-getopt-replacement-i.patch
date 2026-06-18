@@ -23,7 +23,7 @@ index b7f9414..2ce4592 100644
 @@ -23,6 +23,9 @@ endif
  libmagic_la_LIBADD = -lm $(LTLIBOBJS) $(MINGWLIBS)
  
- file_SOURCES = file.c seccomp.c
+ file_SOURCES = file.c seccomp.c landlock.c
 +if MINGW
 +file_SOURCES += getopt_long_prog.c
 +endif
