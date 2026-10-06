@@ -88,27 +88,20 @@ outputs:
       run_exports:
         - ${{ pin_subpackage('libmagic', upper_bound='x') }}
     tests:
-      - if: win
-        then:
-          - package_contents:
-              strict: true
-              files:
-                exists:
-                  - Library/bin/magic.dll
+      - package_contents:
+          strict: true
+          lib:
+            - magic
+          include:
+            - magic.h
+          files:
+            exists:
+              - if: win
+                then:
                   - Library/bin/libmagic.dll
-                  - Library/lib/magic.lib
-                  - Library/include/magic.h
                   - Library/share/misc/magic.mgc
                   - Library/lib/pkgconfig/libmagic.pc
-        else:
-          - package_contents:
-              strict: true
-              lib:
-                - magic
-              include:
-                - magic.h
-              files:
-                exists:
+                else:
                   - share/misc/magic.mgc
                   - lib/pkgconfig/libmagic.pc
     about:
